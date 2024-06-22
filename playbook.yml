@@ -1,0 +1,6 @@
+- hosts: all
+  tasks:
+    - name: Copy index.html
+      copy:
+        src: /opt/index.html
+        dest: /var/www/html
