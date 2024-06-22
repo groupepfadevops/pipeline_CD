@@ -1,0 +1,38 @@
+pipeline {
+    agent any
+    
+    stages {
+        stage('Checkout') {
+            steps {
+                // Checkout the code from GitHub
+                git branch: 'main', url: 'https://github.com/groupepfadevops/pipeline_CD.git'
+            }
+        }
+
+        stage('Build') {
+            steps {
+                // Add build steps (e.g., compiling code, running tests)
+                // sh 'make build'  // Example build command
+            }
+        }
+
+        stage('Deploy') {
+            steps {
+                // Run Ansible playbook for deployment
+                ansiblePlaybook(
+                    playbook: 'ansible/deploy.yml',
+                    inventory: 'ansible/inventory.ini'
+                )
+            }
+        }
+    }
+
+    post {
+        success {
+            echo 'Deployment successful!'
+        }
+        failure {
+            echo 'Deployment failed!'
+        }
+    }
+}
